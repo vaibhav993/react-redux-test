@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom"
+import { connect } from "react-redux"
 import './App.css';
-import Home from "./Home/Home"
-import AddUser from "./AddUser/AddUser";
-import Users from "./Users/Users";
+import Home from "../components/Home/Home"
+import AddUser from "../components/AddUser/AddUser"
+import UserList from "./UserList"
+import { fetchUsers } from "../actions"
 
-class App extends Component {
+class App extends Component <{
+    dispatch: Function
+}>
+{
+    componentDidMount() {
+        this.props.dispatch(fetchUsers())
+    }
+
     render() {
         return (
             <div className="App">
@@ -25,7 +34,7 @@ class App extends Component {
                         <Switch>
                             <Route path="/" exact component={Home} />
                             <Route path="/add_user" component={AddUser}/>
-                            <Route path="/users" component={Users}/>
+                            <Route path="/users" component={UserList}/>
                         </Switch>
                     </div>
                 </Router>
@@ -34,4 +43,5 @@ class App extends Component {
     }
 }
 
-export default App;
+export default connect()(App);
+
